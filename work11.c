@@ -1,12 +1,13 @@
-#include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <stdlib.h>
+// #include <stdio.h>
 
 char ** parse_args(char * line)
 {
-  char *retstr[100];
+  char **retstr = malloc(100 * sizeof(char));
   int i = 0;
-  while (line) {
+  while (line && i < 99) {
     retstr[i] = strsep( &line, " ");
     i++;
   }
@@ -16,14 +17,20 @@ char ** parse_args(char * line)
 
 int main()
 {
-  char line[100] = "wow-this-is-cool";
+  // char line[100] = "wow-this-is-cool";
+  char line[] = "ls -a -l";
   char *s1 = line;
 
+  char ** args = parse_args(line);
+  execvp(args[0], args);
+
+  /*
   printf("Test out strsep:\n");
   printf("\"%s\"\n", strsep(&s1, "-"));
   printf("\"%s\"\n", s1);
   printf("\"%s\"\n", strsep(&s1, "z"));
   printf("\"%s\"\n", s1);
+  */
 
   return 0;
 }
